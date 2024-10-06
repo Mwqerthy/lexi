@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.mx-auto.mt-4.h-2.w-\[100px\].rounded-full.bg-muted {
+    margin-top: 0;
+    height: 0.4rem;
+}
