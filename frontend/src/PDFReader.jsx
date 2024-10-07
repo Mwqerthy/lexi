@@ -23,6 +23,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { initDB, storeFileInIndexedDB, fetchAllFiles, clearAllFiles, deleteFileByIndex } from "./indexedDB";
 import sendPrompt from './api.js'
 
+import Loader from './Loader.jsx';
+
 export default function Component() {
     const [numPages, setNumPages] = useState(null)
     const [pageNumber, setPageNumber] = useState(1)
@@ -57,6 +59,7 @@ export default function Component() {
     const [meaning, setMeaning] = useState('');
     const [example, setExample] = useState('')
     const [sound, setSound] = useState('')
+    const [coming, setComing] = useState(false)
 
     const Card = ({ className, children }) => (
         <div className={`rounded-lg shadow-lg ${className}`}>
@@ -275,6 +278,7 @@ export default function Component() {
     `
 
     const handleSubmit = async () => {
+        setComing(true)
         const response = await sendPrompt(prompt)
         console.log('response from chatgpt', response)
         const result = response.split("#*#")
@@ -283,6 +287,7 @@ export default function Component() {
         setExample(result[1]);
         setSound(result[2])
         setSelectedText('')
+        setComing(false)
     }
 
     const loadPdfFromIndexedDB = async (item = 0) => {
@@ -587,7 +592,7 @@ export default function Component() {
                             Hello! I'm here to help you understand the content of your PDF. You can select text from the document and I'll provide explanations or answer questions about it.
                         </p>
                     </div>
-                    {sound && (
+                    {coming ? <Loader /> : sound ? (
                         <MemoizedCard className="w-full max-w-2xl mx-auto overflow-hidden bg-gradient-to-br from-purple-50 to-blue-50 dark:from-gray-800 dark:to-gray-900">
                             <CardHeader className="bg-gradient-to-r from-purple-500 to-blue-500 text-white">
                                 <CardTitle className="flex items-center justify-between">
@@ -598,7 +603,9 @@ export default function Component() {
                                         aria-label="Pronounce word"
                                     >
                                         <Speaker className="h-6 w-6" />
+                                        <span className="ml-2 text-sm text-gray-600">Pronounce</span>
                                     </Button>
+
                                 </CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-6">
@@ -617,7 +624,7 @@ export default function Component() {
                                 </div>
                             </CardContent>
                         </MemoizedCard>
-                    )}
+                    ) : <></>}
                 </div>
             </ScrollArea>
             <div className="mt-4 relative">
@@ -640,12 +647,23 @@ export default function Component() {
                         </Button>
                     )}
                     <Button
-                        className="h-full rounded-l-none bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white"
+                        className="
+                            h-full rounded-l-none 
+                            bg-gradient-to-r from-blue-400 to-blue-600 
+                            hover:from-blue-600 hover:to-blue-800 
+                            text-white 
+                            transition-all duration-300 
+                            transform hover:scale-105 
+                            active:scale-95 
+                            shadow-lg hover:shadow-2xl 
+                            active:shadow-none
+                        "
                         disabled={!selectedText}
                         onClick={!selectedText ? undefined : () => { handleSubmit() }}
                     >
-                        <Send className="h-6 w-6" />
+                        <Send className="h-8 w-12" />
                     </Button>
+
                 </div>
             </div>
         </div>
@@ -754,7 +772,7 @@ export default function Component() {
                             </div>
                         )}
                         <Button
-                            className="rounded-full shadow-lg bg-primary hover:bg-primary/90 text-primary-foreground"
+                            className="rounded-full shadow-lg bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 active:from-blue-700 active:to-purple-700 text-white transition-all duration-300 ease-in-out px-4"
                             size="lg"
                             onClick={() => {
                                 if (pdfFile) {
@@ -768,11 +786,13 @@ export default function Component() {
                             }}
                         >
                             {pdfFile ?
-                                (showChat ? <FileText className="h-6 w-6 mr-2" /> : <MessageCircle className="h-6 w-6 mr-2" />)
-                                : <Upload className="h-6 w-6 mr-2" />
+                                (showChat ? <FileText className="h-10 w-10 mr-2" /> : <MessageCircle className="h-10 w-10 mr-2" />)
+                                : <Upload className="h-10 w-10 mr-2" />
                             }
                             {pdfFile ? (showChat ? "View PDF" : "Chat") : "Upload PDF"}
                         </Button>
+
+
                     </div>
                 )}
             </div>

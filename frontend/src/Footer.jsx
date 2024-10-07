@@ -39,9 +39,10 @@ export default function Footer() {
                         <a href="https://www.instagram.com/molehill11/profilecard/?igsh=MWgyc21qM3E4Z3ZwdQ==" className="text-xl text-gray-400 hover:text-gray-600" target="_blank">
                             <Instagram className="w-8 h-8" target="_blank" />
                         </a>
-                        <a href="https://www.linkedin.com/in/mikiyas-adane-6670bb255?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BGmV7ZPeOSCep04BOAAa5tw%3D%3D" className="text-xl text-gray-400 hover:text-gray-600" target="_blank">
-                            <Linkedin className="w-8 h-8" />
-                        </a>
+                        <div>
+                            <a href="https://www.linkedin.com/in/mikiyas-adane-6670bb255?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BGmV7ZPeOSCep04BOAAa5tw%3D%3D" className="text-xl text-gray-400 hover:text-gray-600" target="_blank">
+                                <Linkedin className="w-8 h-8" />
+                            </a></div>
                     </div>
                 </motion.div>
                 <motion.div
