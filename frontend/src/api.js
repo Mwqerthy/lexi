@@ -10,6 +10,8 @@ const openai = new OpenAI({
 
 // Example function to get the completion
 const getCompletion = async (data) => {
+    console.log('OPENAI_API_KEY:', process.env.OPENAI_API_KEY);
+
     const message = data;
     try {
         const response = await openai.chat.completions.create({
