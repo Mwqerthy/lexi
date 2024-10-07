@@ -4,7 +4,7 @@ import { config } from "dotenv";
 
 
 const openai = new OpenAI({
-    apiKey: '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',
+    apiKey: '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',
     dangerouslyAllowBrowser: true
 });
 
